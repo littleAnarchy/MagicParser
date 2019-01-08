@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MagicBureauModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Spells">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpellName" Type="varchar" MaxLength="200" />
+          <Property Name="SpellDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="SpellText" Type="varchar" MaxLength="4000" />
+          <Property Name="SpellTypeId" Type="int" />
+          <Property Name="SpellAddedDescription" Type="varchar" MaxLength="2000" />
+        </EntityType>
+        <EntityType Name="SpellTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK__Spells__SpellTyp__5070F446">
+          <End Role="SpellTypes" Type="Self.SpellTypes" Multiplicity="0..1" />
+          <End Role="Spells" Type="Self.Spells" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpellTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Spells">
+              <PropertyRef Name="SpellTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MagicBureauModelContainer">
+          <EntitySet Name="Spells" EntityType="Self.Spells" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpellTypes" EntityType="Self.SpellTypes" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Spells__SpellTyp__5070F446" Association="Self.FK__Spells__SpellTyp__5070F446">
+            <End Role="SpellTypes" EntitySet="SpellTypes" />
+            <End Role="Spells" EntitySet="Spells" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MagicBureauModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Spell">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpellName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="SpellDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="SpellText" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="SpellTypeId" Type="Int32" />
+          <NavigationProperty Name="SpellType" Relationship="Self.FK__Spells__SpellTyp__5070F446" FromRole="Spells" ToRole="SpellTypes" />
+          <Property Name="SpellAddedDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SpellType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Spells" Relationship="Self.FK__Spells__SpellTyp__5070F446" FromRole="SpellTypes" ToRole="Spells" />
+        </EntityType>
+        <Association Name="FK__Spells__SpellTyp__5070F446">
+          <End Role="SpellTypes" Type="Self.SpellType" Multiplicity="0..1" />
+          <End Role="Spells" Type="Self.Spell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpellTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Spells">
+              <PropertyRef Name="SpellTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MagicBureauEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Spells" EntityType="Self.Spell" />
+          <EntitySet Name="SpellTypes" EntityType="Self.SpellType" />
+          <AssociationSet Name="FK__Spells__SpellTyp__5070F446" Association="Self.FK__Spells__SpellTyp__5070F446">
+            <End Role="SpellTypes" EntitySet="SpellTypes" />
+            <End Role="Spells" EntitySet="Spells" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MagicBureauModelContainer" CdmEntityContainer="MagicBureauEntities">
+          <EntitySetMapping Name="Spells">
+            <EntityTypeMapping TypeName="MagicBureauModel.Spell">
+              <MappingFragment StoreEntitySet="Spells">
+                <ScalarProperty Name="SpellAddedDescription" ColumnName="SpellAddedDescription" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SpellName" ColumnName="SpellName" />
+                <ScalarProperty Name="SpellDescription" ColumnName="SpellDescription" />
+                <ScalarProperty Name="SpellText" ColumnName="SpellText" />
+                <ScalarProperty Name="SpellTypeId" ColumnName="SpellTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpellTypes">
+            <EntityTypeMapping TypeName="MagicBureauModel.SpellType">
+              <MappingFragment StoreEntitySet="SpellTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
